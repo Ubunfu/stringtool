@@ -11,11 +11,10 @@ func init() {
 
 var versionCmd = &cobra.Command{
 	Use: "version",
+	Aliases: []string{"v"},
 	Short: "show version",
 	Long: "Display the current version number of the stringtool CLI tool",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("stringtool - v1.0")
-		fmt.Println("Ryan Allen (rallen3882@gmail.com)")
-		fmt.Println("June 21, 2019")
+		fmt.Print("stringtool - Ryan Allen (rallen3882@gmail.com)")
 	},
 }

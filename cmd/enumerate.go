@@ -19,6 +19,7 @@ var output string
 
 var enumCmd = &cobra.Command{
 	Use: "enumerate",
+	Aliases: []string{"e"},
 	Short: "emumarate strings",
 	Long: `Enumerate all alpha-numeric strings of the given length parameters. 
 		Brute-force style.`,

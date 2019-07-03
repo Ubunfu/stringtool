@@ -15,6 +15,7 @@ var str string
 
 var revCmd = &cobra.Command {
 	Use: "reverse",
+	Aliases: []string{"r"},
 	Short: "Reverse a string",
 	Long: "Reverse a string lexigraphically",
 	Run: func(cmd *cobra.Command, args []string) {
