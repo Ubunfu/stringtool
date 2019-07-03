@@ -14,7 +14,6 @@ var rootCmd = &cobra.Command{
 		// Some stuff
 		if len(args) == 0 {
 			log.Fatalln("Choose a sub-command to execute!")
-			Help.Execute()
 		}
 	},
 }
