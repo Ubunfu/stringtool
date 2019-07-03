@@ -1,6 +1,7 @@
 package enumerate
 
 import (
+	"errors"
 	"io"
 	"log"
 	"math"
@@ -13,7 +14,11 @@ var minLen int
 var outPath string
 
 // Enumerate brute-forces strings of given lengths
-func Enumerate(minLen int, maxLen int, outPath string) {
+func Enumerate(minLen int, maxLen int, outPath string) error {
+
+	if minLen > maxLen {
+		return errors.New("Minimum length must not exceed the maximum length!")
+	}
 
 	// Build a starting point
 	start := ""
@@ -55,6 +60,8 @@ func Enumerate(minLen int, maxLen int, outPath string) {
 
 	file.Sync()
 	log.Println("Done.")
+
+	return nil
 }
 
 // calcIncrements pre-calculates the number of times that we will need to increment

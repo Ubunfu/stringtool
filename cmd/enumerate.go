@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"github.com/Ubunfu/stringtool/enumerate"
+	"log"
 )
 
 func init() {
@@ -25,6 +26,9 @@ var enumCmd = &cobra.Command{
 		Brute-force style.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Enumerate all the strings
-		enumerate.Enumerate(minLen, maxLen, output)
+		err := enumerate.Enumerate(minLen, maxLen, output)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	},
 }
