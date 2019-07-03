@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"stringtool/enumerate"
+	"github.com/Ubunfu/stringtool/enumerate"
 )
 
 func init() {

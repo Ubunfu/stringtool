@@ -5,7 +5,7 @@ import (
 	// "log"
 	// "stringtool/enumerate"
 	// "github.com/spf13/cobra"
-	"stringtool/cmd"
+	"github.com/Ubunfu/stringtool/cmd"
 )
 
 // var str string
