@@ -20,12 +20,12 @@ func Enumerate(minLen int, maxLen int, outPath string) {
 	for index := 0; index < minLen; index++ {
 		start = start + string("0")
 	}
-	log.Printf("Start string: %s", start)
 
 	// Convert the starting string into runes
 	runes := []rune(start)
 
 	increments := calcIncrements(minLen, maxLen, 62)
+	log.Printf("Enumerating %d strings to %s ...", increments, outPath)
 
 	// try to open the file for write and append
 	file, err := os.OpenFile(outPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
@@ -48,6 +48,7 @@ func Enumerate(minLen int, maxLen int, outPath string) {
 		}
 	}
 	file.Sync()
+	log.Println("Done.")
 }
 
 // calcIncrements pre-calculates the number of times that we will need to increment
@@ -58,7 +59,6 @@ func calcIncrements(minLen int, maxLen int, dictSize int) int {
 		totalIncrements = totalIncrements + int(math.Pow(float64(dictSize), float64(idx)))
 	}
 	totalIncrements--
-	log.Printf("Need to increment %d times", totalIncrements)
 	return totalIncrements
 }
 
