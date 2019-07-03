@@ -34,19 +34,25 @@ func Enumerate(minLen int, maxLen int, outPath string) {
 	}
 	defer file.Close()
 
+	// Create a buffer to write strings to
+	var stringBuilder strings.Builder
+
 	// Increment until max length exceeded
 	for idx := 0; idx < increments; idx++ {
 		runes = increment(runes)
 
-		var stringBuilder strings.Builder
+		// write strings to the buffer to save time
 		stringBuilder.WriteString(string(runes))
 		stringBuilder.WriteString("\n")
 
-		_, err = io.WriteString(file, stringBuilder.String())
-		if err != nil {
-			log.Fatalln(err)
-		}
 	}
+
+	// flush the buffer to the file
+	_, err = io.WriteString(file, stringBuilder.String())
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	file.Sync()
 	log.Println("Done.")
 }
