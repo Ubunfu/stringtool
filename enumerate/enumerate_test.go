@@ -4,7 +4,7 @@ import (
 	"testing"
 	"os"
 
-	"stringtool/enumerate"
+	"github.com/Ubunfu/stringtool/enumerate"
 )
 
 func TestEnumerate() {
