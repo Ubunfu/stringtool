@@ -11,24 +11,44 @@ import (
 
 var maxLen int
 var minLen int
+var begin string
+var end string
 var outPath string
 
 // Enumerate brute-forces strings of given lengths
-func Enumerate(minLen int, maxLen int, outPath string) error {
+func Enumerate(minLen int, maxLen int, begin string, end string, outPath string) error {
 
+	// Input validation
 	if minLen > maxLen {
 		return errors.New("Minimum length must not exceed the maximum length!")
 	}
 
-	// Build a starting point
-	start := ""
-	for index := 0; index < minLen; index++ {
-		start = start + string("0")
+	// Default and optionally override the starting point
+	if len(begin) == 0 {
+		for index := 0; index < minLen; index++ {
+			begin = begin + string("0")
+		}
+	} else if len(begin) > maxLen {
+		return errors.New("Starting point for enumeration is longer than the max length!")
+	}
+
+	// Default and optionally override the end point
+	if len(end) == 0 {
+		for index := 0; index < maxLen; index++ {
+			end = end + string("z")
+		}
+	} else if len(end) < minLen {
+		return errors.New("Stopping point for enumeration is shorter than the min length!")
+	}
+
+	if begin > end {
+		return errors.New("Start string must appear prior to the end staring when ordered lexigraphically.")
 	}
 
 	// Convert the starting string into runes
-	runes := []rune(start)
+	runes := []rune(begin)
 
+	// TODO Fix these calculations
 	increments := calcIncrements(minLen, maxLen, 62)
 	log.Printf("Enumerating %d strings to %s ...", increments, outPath)
 
@@ -44,11 +64,16 @@ func Enumerate(minLen int, maxLen int, outPath string) error {
 
 	// Increment until max length exceeded
 	for idx := 0; idx < increments; idx++ {
-		runes = increment(runes)
-
 		// write strings to the buffer to save time
 		stringBuilder.WriteString(string(runes))
 		stringBuilder.WriteString("\n")
+
+		// Guard clause to exit gracefully if done enumerating
+		if string(runes) == end {
+			break
+		}
+
+		runes = increment(runes)
 
 	}
 
