@@ -5,3 +5,40 @@ Cobra app for experimenting with Go and stuff like that
 
 ## Help
 View the built-in man page for this app by running ```stringtool help```.  To see the man page for a specific command, run ```stringtool help <command>```.
+
+## Sub-Commands
+
+### reverse
+```
+Reverse a string lexigraphically
+
+Usage:
+  stringtool reverse [flags]
+
+Aliases:
+  reverse, r
+
+Flags:
+  -h, --help            help for reverse
+  -s, --string string   String to reverse
+```
+
+### enumerate
+```
+Enumerate all alpha-numeric strings of the given length parameters.
+		Brute-force style.
+
+Usage:
+  stringtool enumerate [flags]
+
+Aliases:
+  enumerate, e
+
+Flags:
+  -b, --begin string     Starting point for enumeration. E.g. Ry4
+  -e, --end string       Ending point for enumeration. E.g. ccc
+  -h, --help             help for enumerate
+  -x, --max-length int   Maximum string length (default 3)
+  -n, --min-length int   Minimum string length (default 1)
+  -o, --output string    Output file for enumerated strings (default "strings.out")
+```
