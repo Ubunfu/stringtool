@@ -62,8 +62,8 @@ func Enumerate(minLen int, maxLen int, begin string, end string, outPath string)
 	// Create a buffer to write strings to
 	var stringBuilder strings.Builder
 
-	// Increment until max length exceeded
-	for idx := 0; idx < increments; idx++ {
+	// loop forever until stopped by the embedded guard clause
+	for true {
 		// write strings to the buffer to save time
 		stringBuilder.WriteString(string(runes))
 		stringBuilder.WriteString("\n")
@@ -72,9 +72,7 @@ func Enumerate(minLen int, maxLen int, begin string, end string, outPath string)
 		if string(runes) == end {
 			break
 		}
-
 		runes = increment(runes)
-
 	}
 
 	// flush the buffer to the file
@@ -115,11 +113,15 @@ func increment(runes []rune) []rune {
 
 	// New Rune is past z by 1
 	if newRuneInt == 123 {
-		// Check if there are any more strings of this length to enumerate
-		if stringIsMaxed(runes) {
+		if stringIsMaxed(runes) { // Is current length string fully incremented?
 			return extendRunes(runes)
 		}
 
+		// The current length string is not maxed, so roll the runes by incrementing the substring [0:n-1]
+		// E.g. if the current string is aaz:
+		// (1) Call increment(aa) => ab
+		// (2) Re-connect the full string: ab + 0 => ab0
+		// We have effectively turned aaz => ab0
 		newRuneInt = 48
 		rolledRunes := increment(runes[0 : len(runes)-1])
 		runes = append(rolledRunes, rune(newRuneInt))
@@ -141,8 +143,12 @@ func extendRunes(runes []rune) []rune {
 	return extendedRunes
 }
 
-// stringIsMaxed checks to see if there are any more strings that can be enumerated
+// stringIsMaxed checks whether the current length string can be incremented any further
+// Returns true if all characters are the highest acceptable value (e.g. zzz)
+// Otherwise returns false (e.g. aaz)
 func stringIsMaxed(runes []rune) bool {
+
+	// If there are any non-"z" runes in the slice, return false
 	for _, b := range runes {
 		if b != rune(122) {
 			return false
