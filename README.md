@@ -42,3 +42,19 @@ Flags:
   -n, --min-length int   Minimum string length (default 1)
   -o, --output string    Output file for enumerated strings (default "strings.out")
 ```
+
+### hash
+```
+hash strings from a file and writes the {string, hash} pairs to a file
+
+Usage:
+  stringtool hash [flags]
+
+Aliases:
+  hash, h
+
+Flags:
+  -h, --help              help for hash
+  -i, --in-file string    File with strings to hash
+  -o, --out-file string   File to write the strings and hashes (default "hashes.out")
+```
