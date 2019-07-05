@@ -53,7 +53,7 @@ func Enumerate(minLen int, maxLen int, begin string, end string, outPath string)
 	log.Printf("Enumerating %d strings to %s ...", increments, outPath)
 
 	// try to open the file for write and append
-	file, err := os.OpenFile(outPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+	file, err := os.Create(outPath)
 	if err != nil {
 		log.Fatalln(err)
 	}
