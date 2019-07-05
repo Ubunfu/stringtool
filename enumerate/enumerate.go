@@ -4,7 +4,6 @@ import (
 	"errors"
 	"io"
 	"log"
-	"math"
 	"os"
 	"strings"
 )
@@ -48,10 +47,6 @@ func Enumerate(minLen int, maxLen int, begin string, end string, outPath string)
 	// Convert the starting string into runes
 	runes := []rune(begin)
 
-	// TODO Fix these calculations
-	increments := calcIncrements(minLen, maxLen, 62)
-	log.Printf("Enumerating %d strings to %s ...", increments, outPath)
-
 	// try to open the file for write and append
 	file, err := os.Create(outPath)
 	if err != nil {
@@ -82,20 +77,8 @@ func Enumerate(minLen int, maxLen int, begin string, end string, outPath string)
 	}
 
 	file.Sync()
-	log.Println("Done.")
 
 	return nil
-}
-
-// calcIncrements pre-calculates the number of times that we will need to increment
-// our string in order to brute-force all of the possible permutations
-func calcIncrements(minLen int, maxLen int, dictSize int) int {
-	totalIncrements := 0
-	for idx := minLen; idx <= maxLen; idx++ {
-		totalIncrements = totalIncrements + int(math.Pow(float64(dictSize), float64(idx)))
-	}
-	totalIncrements--
-	return totalIncrements
 }
 
 // increment will increment the last rune in the array and return the whole array
