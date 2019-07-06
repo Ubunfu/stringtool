@@ -15,7 +15,7 @@ var end string
 var outPath string
 
 // Enumerate brute-forces strings of given lengths
-func Enumerate(minLen int, maxLen int, begin string, end string, outPath string) error {
+func Enumerate(minLen int, maxLen int, begin string, end string, outPath string, flushInterval int) error {
 
 	// Input validation
 	if minLen > maxLen {
@@ -58,7 +58,19 @@ func Enumerate(minLen int, maxLen int, begin string, end string, outPath string)
 	var stringBuilder strings.Builder
 
 	// loop forever until stopped by the embedded guard clause
-	for true {
+	for enumCount := 0; true; enumCount++ {
+
+		// Periodically flush output buffer to disk
+		if enumCount % flushInterval == 0 {
+			// flush the buffer to the file
+			_, err = io.WriteString(file, stringBuilder.String())
+			if err != nil {
+				log.Fatalln(err)
+			}
+			file.Sync()
+			stringBuilder.Reset()
+		}
+
 		// write strings to the buffer to save time
 		stringBuilder.WriteString(string(runes))
 		stringBuilder.WriteString("\n")

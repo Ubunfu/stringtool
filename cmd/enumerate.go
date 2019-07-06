@@ -13,6 +13,7 @@ func init() {
 	enumCmd.Flags().StringVarP(&begin, "begin", "b", "", "Starting point for enumeration. E.g. Ry4")
 	enumCmd.Flags().StringVarP(&end, "end", "e", "", "Ending point for enumeration. E.g. ccc")
 	enumCmd.Flags().StringVarP(&output, "output", "o", "strings.out", "Output file for enumerated strings")
+	enumCmd.Flags().IntVarP(&flushInterval, "flushInterval", "f", 10000, "Number of strings that will be enumerated before flushing to disk")
 }
 
 // Flag vars
@@ -21,6 +22,7 @@ var maxLen int
 var begin string
 var end string
 var output string
+var flushInterval int
 
 var enumCmd = &cobra.Command{
 	Use: "enumerate",
@@ -30,7 +32,7 @@ var enumCmd = &cobra.Command{
 		Brute-force style.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Enumerate all the strings
-		err := enumerate.Enumerate(minLen, maxLen, begin, end, output)
+		err := enumerate.Enumerate(minLen, maxLen, begin, end, output, flushInterval)
 		if err != nil {
 			log.Fatalln(err)
 		}
