@@ -59,4 +59,5 @@ Flags:
   -h, --help               help for hash
   -i, --in-file string     File with strings to hash
   -o, --out-file string    File to write the strings and hashes (default "hashes.out")
+  -r, --rounds int         Number of rounds of hashing to perform on the input strings (default 1)
 ```
