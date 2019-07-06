@@ -12,6 +12,7 @@ func init() {
 	hashCmd.Flags().StringVarP(&outFilePath, "out-file", "o", "hashes.out", "File to write the strings and hashes")
 	hashCmd.Flags().StringVarP(&algorithm, "algorithm", "a", "", "Algorithm to use for hashing the strings: [ md5 | sha1 | sha512 ]")
 	hashCmd.Flags().StringVarP(&encoding, "encoding", "e", "hex", "Encoding to use for writing the hashed strings: [ hex | base64 ]")
+	hashCmd.Flags().IntVarP(&rounds, "rounds", "r", 1, "Number of rounds of hashing to perform on the input strings")
 	hashCmd.MarkFlagRequired("in-file")
 	hashCmd.MarkFlagRequired("algorithm")
 }
@@ -20,6 +21,7 @@ var inFilePath string
 var outFilePath string
 var algorithm string
 var encoding string
+var rounds int
 
 var hashCmd = &cobra.Command{
 	Use: "hash",
@@ -27,7 +29,7 @@ var hashCmd = &cobra.Command{
 	Short: "hash your strings",
 	Long: "hash strings from a file and writes the {string, hash} pairs to a file",
 	Run: func (cmd *cobra.Command, args []string) {
-		err := hash.FileHash(inFilePath, outFilePath, algorithm, encoding)
+		err := hash.FileHash(inFilePath, outFilePath, algorithm, rounds, encoding)
 		if err != nil {
 			log.Fatalln(err)
 		}
