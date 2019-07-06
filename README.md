@@ -37,6 +37,7 @@ Aliases:
 Flags:
   -b, --begin string     Starting point for enumeration. E.g. Ry4
   -e, --end string       Ending point for enumeration. E.g. ccc
+  -f, --flushInterval int   Number of strings that will be enumerated before flushing to disk (default 10000)
   -h, --help             help for enumerate
   -x, --max-length int   Maximum string length (default 3)
   -n, --min-length int   Minimum string length (default 1)
