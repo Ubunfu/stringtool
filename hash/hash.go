@@ -1,9 +1,12 @@
 package hash
 
 import (
-	"bufio"
 	"crypto/md5"
+	"crypto/sha1"
+	"crypto/sha512"
 	"encoding/hex"
+
+	"bufio"
 	"errors"
 	"io"
 	"log"
@@ -105,14 +108,14 @@ func hashBytes(bytes []byte, algorithm string) ([]byte, error) {
 	// decide which hashing algorithm to use
 	switch algorithm {
 	case "md5":
-		hashedBytes16 := md5.Sum(bytes)
-		hashedBytes = hashedBytes16[:]
+		hashedBytesArray := md5.Sum(bytes)
+		hashedBytes = hashedBytesArray[:]
 	case "sha1":
-		err := errors.New("sha1 hashing is not implemented yet")
-		return nil, err
+		hashedBytesArray := sha1.Sum(bytes)
+		hashedBytes = hashedBytesArray[:]
 	case "sha512":
-		err := errors.New("sha512 hashing is not implemented yet")
-		return nil, err
+		hashedBytesArray := sha512.Sum512(bytes)
+		hashedBytes = hashedBytesArray[:]
 	default:
 		err := errors.New("Invalid hash algorithm.  Supported algorithms are: md5, sha1, sha512")
 		return nil, err
