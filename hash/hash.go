@@ -9,7 +9,6 @@ import (
 	"bufio"
 	"errors"
 	"io"
-	"log"
 	"os"
 	"strings"
 )
@@ -17,7 +16,7 @@ import (
 // FileHash accepts two string file paths, to an input and output.
 // The input file is read line by line, and a new file is written in the form
 // ^{string} : {hash}$
-func FileHash(inFilePath string, outFilePath string, algorithm string, rounds int, encoding string) error {
+func FileHash(inFilePath string, outFilePath string, flushInterval int, algorithm string, rounds int, encoding string) error {
 	// Open the input file for reading, and the output file for writing
 	inFile, err := os.Open(inFilePath)
 	if err != nil {
@@ -43,7 +42,16 @@ func FileHash(inFilePath string, outFilePath string, algorithm string, rounds in
 	}
 
 	// (Keep pumping 'til EOF)
-	for len(bytesRead) > 0 {
+	for hashCount := 0; len(bytesRead) > 0; hashCount++ {
+
+		// Periodically flush the output buffer to disk
+		if hashCount % flushInterval == 0 {
+			_, err = io.WriteString(outFile, stringBuilder.String())
+			if err != nil {
+				return err
+			}
+			stringBuilder.Reset()
+		}
 
 		// Hash the bytes
 		bytesRead = bytesRead[:len(bytesRead)-1] // trim "\n" byte
@@ -77,7 +85,7 @@ func FileHash(inFilePath string, outFilePath string, algorithm string, rounds in
 	// flush the output buffer to file
 	_, err = io.WriteString(outFile, stringBuilder.String())
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
 	return nil
 }
