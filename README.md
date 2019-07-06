@@ -54,7 +54,9 @@ Aliases:
   hash, h
 
 Flags:
-  -h, --help              help for hash
-  -i, --in-file string    File with strings to hash
-  -o, --out-file string   File to write the strings and hashes (default "hashes.out")
+  -a, --algorithm string   Algorithm to use for hashing the strings: [ md5 | sha1 | sha512 ]
+  -e, --encoding string    Encoding to use for writing the hashed strings: [ hex | base64 ] (default "hex")
+  -h, --help               help for hash
+  -i, --in-file string     File with strings to hash
+  -o, --out-file string    File to write the strings and hashes (default "hashes.out")
 ```

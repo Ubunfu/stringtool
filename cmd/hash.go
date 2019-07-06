@@ -10,8 +10,8 @@ func init() {
 	rootCmd.AddCommand(hashCmd)
 	hashCmd.Flags().StringVarP(&inFilePath, "in-file", "i", "", "File with strings to hash")
 	hashCmd.Flags().StringVarP(&outFilePath, "out-file", "o", "hashes.out", "File to write the strings and hashes")
-	hashCmd.Flags().StringVarP(&algorithm, "algorithm", "a", "", "Algorithm to use for hashing the strings")
-	hashCmd.Flags().StringVarP(&encoding, "encoding", "e", "hex", "Encoding to use for writing the hashed strings")
+	hashCmd.Flags().StringVarP(&algorithm, "algorithm", "a", "", "Algorithm to use for hashing the strings: [ md5 | sha1 | sha512 ]")
+	hashCmd.Flags().StringVarP(&encoding, "encoding", "e", "hex", "Encoding to use for writing the hashed strings: [ hex | base64 ]")
 	hashCmd.MarkFlagRequired("in-file")
 	hashCmd.MarkFlagRequired("algorithm")
 }
