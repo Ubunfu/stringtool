@@ -5,7 +5,7 @@ import (
 	"crypto/sha1"
 	"crypto/sha512"
 	"encoding/hex"
-
+	"encoding/base64"
 	"bufio"
 	"errors"
 	"io"
@@ -84,20 +84,19 @@ func FileHash(inFilePath string, outFilePath string, algorithm string, encoding 
 
 // encode will apply an encoding format to data to make it more readable
 func encode(bytes []byte, encoding string) ([]byte, error) {
-
 	switch encoding {
 	case "hex":
 		encodedBytes := make([]byte, hex.EncodedLen(len(bytes)))
 		hex.Encode(encodedBytes, bytes)
 		return encodedBytes, nil
 	case "base64":
-		err := errors.New("base64 encoding is not implemented yet")
-		return nil, err
+		encodedBytes := make([]byte, base64.StdEncoding.EncodedLen(len(bytes)))
+		base64.StdEncoding.Encode(encodedBytes, bytes)
+		return encodedBytes, nil
 	default:
 		err := errors.New("Invalid encoding format.  Supported formats are: hex, base64")
 		return nil, err
 	}
-
 }
 
 // hashBytes accepts a byte slice and a string describing the algorithm to use for hashing.
