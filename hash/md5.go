@@ -32,29 +32,33 @@ func FileMD5(inFilePath string, outFilePath string) error {
 	reader := bufio.NewReader(inFile) // read buffer
 
 	// Read the input file a line at a time
-	bytesRead, err := reader.ReadBytes('\n')
+	// (Prime the pump)
+	bytesRead, err := reader.ReadBytes('\n') // Read until "\n" is found (inclusive)
 	if err != nil {
 		return err
 	}
 
+	// (Keep pumping 'til EOF)
 	for len(bytesRead) > 0 {
 		if err != nil {
 			return err
 		}
 
-		bytesRead = bytesRead[:len(bytesRead)-1] // trim newline
-		// log.Printf("Read: %q bytes of length %d.", bytesRead, len(bytesRead))
-		hashedBytes16 := md5.Sum(bytesRead)
-		hashedBytes := hashedBytes16[:] // converts [16]byte to []byte.  Omit the trailing \n
+		bytesRead = bytesRead[:len(bytesRead)-1] // trim "\n" byte
+		hashedBytes16 := md5.Sum(bytesRead)      // hash the bytes
+		hashedBytes := hashedBytes16[:]          // converts [16]byte to []byte
+
+		// Write to the output buffer
 		stringBuilder.Write(bytesRead)
 		stringBuilder.WriteString(" : ")
 		stringBuilder.WriteString(hex.EncodeToString(hashedBytes))
 		stringBuilder.WriteString("\n")
 
+		// Try reading the next line from the file
 		bytesRead, err = reader.ReadBytes('\n')
 	}
 
-	// flush the buffer to the file
+	// flush the output buffer to file
 	_, err = io.WriteString(outFile, stringBuilder.String())
 	if err != nil {
 		log.Fatalln(err)
