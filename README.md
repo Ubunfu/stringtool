@@ -1,6 +1,8 @@
 # stringtool
 Cobra app for experimenting with Go and stuff like that
 
+1000 YEARS ARCTIC CODE VAULT!
+
 [![CircleCI](https://circleci.com/gh/Ubunfu/stringtool.svg?style=svg)](https://circleci.com/gh/Ubunfu/stringtool)
 
 ## Help
